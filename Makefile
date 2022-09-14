@@ -3,7 +3,7 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -lm #-lXrandr
 
 all: bship
 
-bship: bship.o log.o avu2.cpp amartinez2.cpp adiazperez.cpp tbrown.cp abotello.cpp
+bship: bship.o log.o avu2.cpp amartinez2.cpp adiazperez.cpp tbrown.cpp abotello.cpp
 	g++ bship.o log.o avu2.cpp amartinez2.cpp adiazperez.cpp tbrown.cpp abotello.cpp libggfonts.a $(LFLAGS) -o bship
 
 bship.o: bship.cpp
