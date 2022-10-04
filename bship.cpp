@@ -72,8 +72,10 @@ int nbuttons=0;
 class Global {
 	public:
 		unsigned int help;
+		unsigned int pause;
 		Global(){
 			help = 0;
+			pause = 0;
 		}
 } gl;
 
