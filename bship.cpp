@@ -23,6 +23,7 @@
 #include "log.h"
 #include "fonts.h"
 #include "amartinez2.h"
+#include "tbrown.h"
 
 extern void help_screen();
 //macros
@@ -73,6 +74,8 @@ class Global {
 	public:
 		unsigned int help;
 		unsigned int pause;
+        int intro_counter = 200;
+        int intro_screen = 1;
 		Global(){
 			help = 0;
 			pause = 0;
@@ -134,15 +137,17 @@ public:
 	}
 };
 //Image img[3] = {"./x.ppm", "./explosion.ppm", "./bship.ppm"};
-Image img[3] = {"./x.png", "./explosion.png", "./bship.png"};
+Image img[4] = {"./x.png", "./explosion.png", "./bship.png", "./intro.png"};
 //
 //
 GLuint xTexture;
 GLuint explosionTexture;
 GLuint bshipTexture;
+GLuint introTexture;
 Image *xImage = NULL;
 Image *explosionImage = NULL;
 Image *bshipImage = NULL;
+Image *introImage = NULL;
 //
 #define MAXSHIPS 4
 typedef struct t_ship {
@@ -394,11 +399,13 @@ void init_opengl(void)
 	xImage          = &img[0];
 	explosionImage  = &img[1];
 	bshipImage      = &img[2];
+    introImage      = &img[3];
 	//
 	//allocate opengl texture identifiers
 	glGenTextures(1, &xTexture);
 	glGenTextures(1, &explosionTexture);
 	glGenTextures(1, &bshipTexture);
+    glGenTextures(1, &introTexture);
 	//
 	//load textures into memory
 	//-------------------------------------------------------------------------
@@ -429,6 +436,15 @@ void init_opengl(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
 								GL_RGB, GL_UNSIGNED_BYTE, bshipImage->data);
 	//-------------------------------------------------------------------------
+    //intro
+    w = introImage->width;
+    h = introImage->height;
+    glBindTexture(GL_TEXTURE_2D, introTexture);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
+                                GL_RGB, GL_UNSIGNED_BYTE, introImage->data);
+    //-------------------------------------------------------------------------
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//printf("tex: %i %i\n",Htexture,Vtexture);
 }
@@ -852,8 +868,14 @@ void render(void)
 	//this sets to 2D mode (no perspective)
 	glOrtho(0, xres, 0, yres, -1, 1);
 	glColor3f(0.8f, 0.6f, 0.2f);
-	//
+	//Show intro screen
+    if (gl.intro_screen) {
+            gl.intro_counter += show_intro_screen(introTexture, xres, yres);
+            if (gl.intro_counter < 0)
+                    gl.intro_screen = 0;
+    }
 	//show screen background...
+    else {
 	glBindTexture(GL_TEXTURE_2D, bshipTexture);
 	glColor3f(0.2f, 0.2f, 0.6f);
 	glBegin(GL_QUADS);
@@ -1013,5 +1035,5 @@ void render(void)
 	ggprint16(&r, 20, 0x00ffff00, "nships sunk: %i",nshipssunk);
 	ggprint16(&r, 20, 0x00ffff00, "nbombs left: %i",nbombs);
 }
-
+}
 

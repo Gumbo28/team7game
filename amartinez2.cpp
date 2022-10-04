@@ -29,12 +29,13 @@ void show_name() {
 //		#include "amartinez2.h"
 //	add amartinez2.h in Make file
 
+/*
 unsigned int manage_state(unsigned int s)
 {
 	s = s ^ 1;
 	return s;
 }
-
+*/
 
 void help_screen(){
 	//Rect r;
