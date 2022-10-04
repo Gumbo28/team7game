@@ -22,7 +22,9 @@
 //#include <GL/glu.h>
 #include "log.h"
 #include "fonts.h"
+#include "amartinez2.h"
 
+extern void help_screen();
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
 //prototypes
@@ -66,8 +68,18 @@ Button button[MAXBUTTONS];
 int nbuttons=0;
 //
 //
+
+class Global {
+	public:
+		unsigned int help;
+		Global(){
+			help = 0;
+		}
+} gl;
+
 class Image {
 public:
+
 	int width, height;
 	unsigned char *data;
 	~Image() { delete [] data; }
@@ -518,6 +530,10 @@ void check_keys(XEvent *e)
 		//if (k1 == GLFW_KEY_F2) {
 		case XK_Escape:
 			done=1;
+			break;
+		case XK_F1:
+			//gl.help = help_screen(gl.help);
+			help_screen();
 			break;
 		case XK_F2:
 			gamemode++;
