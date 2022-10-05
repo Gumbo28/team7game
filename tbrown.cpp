@@ -1,11 +1,12 @@
-// Tyler's source code here
+// Tyler Brown
+// Source file
 #include <GL/glx.h>
 #include "tbrown.h"
 #include <iostream>
+
+// Renders intro screen
 extern void show_intro_screen(GLuint introTexture, int xres, int yres)
 {
-        // Renders intro image onto screen
-
         glBindTexture(GL_TEXTURE_2D, introTexture);
         glColor3f(1.0f, 1.0f, 1.0f);
         glBegin(GL_QUADS);
