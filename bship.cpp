@@ -25,7 +25,7 @@
 #include "amartinez2.h"
 #include "tbrown.h"
 
-//extern void help_screen();
+extern void help_screen();
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
 //prototypes
