@@ -2,7 +2,7 @@
 #include <GL/glx.h>
 #include "tbrown.h"
 #include <iostream>
-extern int show_intro_screen(GLuint introTexture, int xres, int yres)
+extern void show_intro_screen(GLuint introTexture, int xres, int yres)
 {
         // Renders intro image onto screen
 
@@ -15,6 +15,4 @@ extern int show_intro_screen(GLuint introTexture, int xres, int yres)
             glTexCoord2f(1.0f, 1.0f);   glVertex2i(xres, 0);
         glEnd();
         glBindTexture(GL_TEXTURE_2D, 0);
-        // Returns -1 to decrement intro_counter
-        return -1;
 }

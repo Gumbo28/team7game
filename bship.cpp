@@ -25,7 +25,7 @@
 #include "amartinez2.h"
 #include "tbrown.h"
 
-extern void help_screen();
+//extern void help_screen();
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
 //prototypes
@@ -74,7 +74,6 @@ class Global {
 	public:
 		unsigned int help;
 		unsigned int pause;
-        int intro_counter = 200;
         int intro_screen = 1;
 		Global(){
 			help = 0;
@@ -563,6 +562,9 @@ void check_keys(XEvent *e)
 				gamemode = MODE_READY;
 			}
 			break;
+        case XK_Return:
+            gl.intro_screen = 0;
+            break;
 	}
 }
 
@@ -870,9 +872,7 @@ void render(void)
 	glColor3f(0.8f, 0.6f, 0.2f);
 	//Show intro screen
     if (gl.intro_screen) {
-            gl.intro_counter += show_intro_screen(introTexture, xres, yres);
-            if (gl.intro_counter < 0)
-                    gl.intro_screen = 0;
+        show_intro_screen(introTexture, xres, yres);
     }
 	//show screen background...
     else {
