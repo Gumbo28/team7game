@@ -871,11 +871,8 @@ void render(void)
 	glOrtho(0, xres, 0, yres, -1, 1);
 	glColor3f(0.8f, 0.6f, 0.2f);
 	//Show intro screen
-    if (gl.intro_screen) {
-        show_intro_screen(introTexture, xres, yres);
-    }
 	//show screen background...
-    else {
+    
 	glBindTexture(GL_TEXTURE_2D, bshipTexture);
 	glColor3f(0.2f, 0.2f, 0.6f);
 	glBegin(GL_QUADS);
@@ -1034,6 +1031,11 @@ void render(void)
 	ggprint16(&r, 20, 0x00ffff00, "nships placed: %i",nships);
 	ggprint16(&r, 20, 0x00ffff00, "nships sunk: %i",nshipssunk);
 	ggprint16(&r, 20, 0x00ffff00, "nbombs left: %i",nbombs);
+
+	// Calls show_intro_screen to render intro screen
+    if (gl.intro_screen) {
+        show_intro_screen(introTexture, xres, yres);
+    }
 }
-}
+
 
