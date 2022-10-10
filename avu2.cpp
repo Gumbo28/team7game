@@ -1,31 +1,31 @@
 //Author: Anh Vu
 //Date: 10/4/2022
-//source file for myimage.h
+//source file for avu2.h
 //
-#include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
 #include "avu2.h"
-#include <iostream>
-using namespace std;
+//std::string credit_html =
+//#include "credit.html";
 
-unsigned int manage_state(unsigned int s)
+/*unsigned int manage_state(unsigned int s)
 {
     s = s ^ 1;
     return s;
+}*/
+
+extern int showCredit(GLuint creditTexture, int xres, int yres) 
+{	  
+   glBindTexture(GL_TEXTURE_2D, creditTexture);
+        glColor3f(0.2f, 0.2f, 0.6f);
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0f, 1.0f);   glVertex2i(0,    0);
+            glTexCoord2f(0.0f, 0.25f);  glVertex2i(0,    yres);
+            glTexCoord2f(1.0f, 0.25f);  glVertex2i(xres, yres);
+            glTexCoord2f(1.0f, 1.0f);   glVertex2i(xres, 0);
+        glEnd();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return 0;
 }
 
-
-void showCredit() 
-{	    
-    cout << "Credit here" << endl;	
-    cout << "Tyler, Anh, Abisai, Aldair, Andres";
-}
-
-//credit inti =0 
-//change credit to 1 to turn on
-//make a func
-//render func
-// show the func at the end
-//
 
