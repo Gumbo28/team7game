@@ -24,6 +24,7 @@
 #include "fonts.h"
 #include "amartinez2.h"
 #include "tbrown.h"
+#include "abotello.h"
 
 extern void help_screen();
 //macros
@@ -525,6 +526,20 @@ void init(void)
 	button[nbuttons].text_color = 0x00ffffff;
 	nbuttons++;
 }
+void pause_screen(){
+
+    int xcent = xres;
+    int ycent = yres;
+    int w = 1200;
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_QUADS);
+        glVertex2f(xcent-w, ycent-w);
+        glVertex2f(xcent-w, ycent+w);
+        glVertex2f(xcent+w, ycent+w);
+        glVertex2f(xcent+w, ycent-w);
+
+        glEnd();
+}
 
 void check_keys(XEvent *e)
 {
@@ -548,6 +563,9 @@ void check_keys(XEvent *e)
 		case XK_Escape:
 			done=1;
 			break;
+		case XK_p:
+                        gl.pause = manage_pstate(gl.pause);
+                        break;
 		case XK_F1:
 			//gl.help = help_screen(gl.help);
 			help_screen();
@@ -1035,6 +1053,10 @@ void render(void)
 	// Calls show_intro_screen to render intro screen
     if (gl.intro_screen) {
         show_intro_screen(introTexture, xres, yres);
+    }
+    //show pause screen
+    if (gl.pause) {
+        pause_screen();
     }
 }
 
