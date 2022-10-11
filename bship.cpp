@@ -75,6 +75,7 @@ int nbuttons=0;
 class Global {
 	public:
 	    unsigned int credit = 0;
+	    unsigned int feature = 0;
 	    unsigned int help;	
 	    unsigned int pause;
 	    int intro_screen = 1;
@@ -454,12 +455,12 @@ void init_opengl(void)
     //-------------------------------------------------------------------------
 
 	 //credit
-    w = introImage->width;
-    h = introImage->height;
+    w = creditImage->width;
+    h = creditImage->height;
     glBindTexture(GL_TEXTURE_2D, creditTexture);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h/2, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
                                 GL_RGB, GL_UNSIGNED_BYTE, creditImage->data);
     //-------------------------------------------------------------------------
 
@@ -604,6 +605,12 @@ void check_keys(XEvent *e)
                 gl.credit = 0;
             }
             break;
+	case XK_f:
+	    gl.feature += 1;
+	    if(gl.feature > 1) {
+		gl.feature = 0;
+	    }
+	    break;
         case XK_Return:
             gl.intro_screen = 0;
             break;
@@ -1086,6 +1093,10 @@ void check_keys(XEvent *e)
         if (gl.credit != 0) {
             showCredit(creditTexture, xres, yres);
         }
+	//Feafure
+	if (gl.feature != 0) {
+	    showFeature(xres, yres);
+	}
     }
 
 
