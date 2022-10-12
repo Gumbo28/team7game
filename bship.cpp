@@ -27,7 +27,8 @@
 #include "abotello.h"
 #include "avu2.h"
 
-extern void help_screen();
+extern void help_screen(GLuint help_screen_img, int xres, int yres);
+
 //macros
 #define rnd() (double)rand()/(double)RAND_MAX
 //prototypes
@@ -78,6 +79,7 @@ class Global {
 	    unsigned int feature = 0;
 	    unsigned int help;	
 	    unsigned int pause;
+	    int help_screen = 0;
 	    int intro_screen = 1;
 		Global(){
 			help = 0;
@@ -140,8 +142,8 @@ public:
 	}
 };
 //Image img[3] = {"./x.ppm", "./explosion.ppm", "./bship.ppm"};
-Image img[5] = {"./x.png", "./explosion.png", "./bship.png", 
-    "./intro.png", "./credit.png"};
+Image img[6] = {"./x.png", "./explosion.png", "./bship.png", 
+    "./intro.png", "./credit.png", "./help_screen.png"};
 //
 //
 GLuint xTexture;
@@ -149,11 +151,13 @@ GLuint explosionTexture;
 GLuint bshipTexture;
 GLuint introTexture;
 GLuint creditTexture;
+GLuint helpTexture;
 Image *xImage = NULL;
 Image *explosionImage = NULL;
 Image *bshipImage = NULL;
 Image *introImage = NULL;
 Image *creditImage = NULL;
+Image *helpImage = NULL;
 //
 #define MAXSHIPS 4
 typedef struct t_ship {
@@ -407,6 +411,7 @@ void init_opengl(void)
 	bshipImage      = &img[2];
     introImage      = &img[3];
 	creditImage     = &img[4];
+	helpImage     = &img[5];
     //
 	//allocate opengl texture identifiers
 	glGenTextures(1, &xTexture);
@@ -414,6 +419,7 @@ void init_opengl(void)
 	glGenTextures(1, &bshipTexture);
     glGenTextures(1, &introTexture);
     glGenTextures(1, &creditTexture);
+    glGenTextures(1, &helpTexture);
 	//
 	//load textures into memory
 	//-------------------------------------------------------------------------
@@ -463,6 +469,16 @@ void init_opengl(void)
     glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
                                 GL_RGB, GL_UNSIGNED_BYTE, creditImage->data);
     //-------------------------------------------------------------------------
+    //help screen
+    w = helpImage->width;
+    h = helpImage->height;
+    glBindTexture(GL_TEXTURE_2D, helpTexture);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
+                                GL_RGB, GL_UNSIGNED_BYTE, helpImage->data);
+
+
 
     glBindTexture(GL_TEXTURE_2D, 0);
 	//printf("tex: %i %i\n",Htexture,Vtexture);
@@ -587,7 +603,11 @@ void check_keys(XEvent *e)
             break;
         case XK_F1:
             //gl.help = help_screen(gl.help);
-            help_screen();
+            //help_screen();
+	    if(gl.help_screen)
+                gl.help_screen = 0;
+                        else
+                gl.help_screen = 1;
             break;
         case XK_F2:
             gamemode++;
@@ -1093,6 +1113,10 @@ void check_keys(XEvent *e)
         if (gl.credit != 0) {
             showCredit(creditTexture, xres, yres);
         }
+	if (gl.help_screen) {
+        	help_screen(helpTexture, xres, yres);
+    	}
+
 	//Feafure
 	if (gl.feature != 0) {
 	    showFeature(xres, yres);

@@ -2,14 +2,15 @@
 //new source file
 //
 #include <iostream>
-#include <stdio.h>
+#include <GL/glx.h>
+#include "amartinez2.h"
+
 using namespace std;
 /*
 typedef struct t_button {
 	Rect r;
 } Button;
 */
-
 void show_name() {
 	printf("aldair\n");
 	//return 0;
@@ -29,20 +30,29 @@ void show_name() {
 //		#include "amartinez2.h"
 //	add amartinez2.h in Make file
 
-/*
 unsigned int manage_state(unsigned int s)
 {
 	s = s ^ 1;
 	return s;
 }
-*/
 
-void help_screen(){
-	//Rect r;
+
+extern void help_screen(GLuint help_screen_img, int xres, int yres)
+{
+	glBindTexture(GL_TEXTURE_2D, help_screen_img);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 1.0f);   glVertex2i(0,   0);
+	glTexCoord2f(0.0f, 0.25f);  glVertex2i(0,   yres);
+	glTexCoord2f(1.0f, 0.25f);  glVertex2i(xres, yres);
+	glTexCoord2f(1.0f, 1.0f);   glVertex2i(xres, 0);
+	glEnd();
+	glBindTexture(GL_TEXTURE_2D, 0);
 	/*
+	Rect r;
 	ggprint16(&r, 0, 0x00ffffff, "Mouse movement: move paddle");
 	ggprint16(&r, 0, 0x00ffffff, "F1 Key: close help screen");
-	*/
 	cout << "Mouse movement: move paddle\n";
 	cout << "F1 key: close help screen\n";	
+	*/
 }
