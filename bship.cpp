@@ -1037,7 +1037,15 @@ void check_keys(XEvent *e)
             r.bot  = yres-50;
             r.left = xres/2;
             ggprint16(&r, 0, 0x0088aaff, "BATTLESHIP GAME STARTER KIT");
+       	 
+        //show Credit
+        if (gl.credit != 0) {
+            showCredit(creditTexture, xres, yres);
+	    ggprint16(&r, 0, 0x0088aaff, "Credit Screen");
+	    r.bot = yres-100;
+	    ggprint16(&r, 0, 0x0088aaff, "Tyler, Andres, Aldair, Anh, Abisai");
         }
+	}
         //
         //draw all buttons
         //
@@ -1109,10 +1117,7 @@ void check_keys(XEvent *e)
         if (gl.pause) {
             pause_screen();
         }
-        //show Credit
-        if (gl.credit != 0) {
-            showCredit(creditTexture, xres, yres);
-        }
+
 	if (gl.help_screen) {
         	help_screen(helpTexture, xres, yres);
     	}
